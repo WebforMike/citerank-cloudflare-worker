@@ -58,6 +58,34 @@ Then add the route and connect the site, as above.
 If `wrangler secret put` says no Worker of that name exists yet, answer yes to
 create it, or run `wrangler deploy` first and set the secret after.
 
+## Updating to a newer version
+
+The Worker does not update itself. Once it is deployed it keeps running the
+version you deployed, so a fix published here does not reach your site until you
+redeploy.
+
+Check which version you are running:
+
+```
+curl -H "X-Citerank-Key: YOUR_KEY" https://example.com/citerank/v1/status
+```
+
+The `version` field in the response is the one deployed on your site. Compare it
+with the `version` near the top of `cloudflare-worker.js` in this repository.
+
+To update, redeploy the current code. Nothing else changes: your KV namespace,
+your key and your route are all preserved, and the signals you have deployed
+stay exactly as they are. The Worker stores those in KV, and redeploying the
+code does not touch stored values.
+
+**If you deployed with the button:** click Deploy to Cloudflare again and pick
+the same Worker name (`citerank-deploy`). It redeploys over the existing Worker.
+
+**If you deployed with wrangler:** pull the newer `cloudflare-worker.js` into
+your folder, keeping your own `wrangler.toml` with its namespace id and route,
+then run `wrangler deploy` again. There is no need to recreate the namespace or
+set the secret a second time.
+
 ## What it does not do
 
 Site-level signals only. Per-page schema needs a platform that can address

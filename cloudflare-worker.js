@@ -27,6 +27,13 @@
  *   3. Deploy, with the Worker on a route covering the whole site: example.com/*
  */
 
+/* Bump this whenever this file changes in a way a deployed site should pick up.
+ *
+ * The Worker does not update itself: a site keeps running the copy it deployed.
+ * This is the only way anyone can tell a running deployment from a current one,
+ * and it is reported by the status endpoint so both sides can compare. */
+const CLIENT_VERSION = 2;
+
 const BRIDGE_PATH = '/citerank/v1';
 
 /* Where each signal is served, and how. "replace" answers the path outright.
@@ -88,7 +95,7 @@ async function handleBridge(request, env, url) {
       return json({
         success: true,
         client: 'cloudflare-worker',
-        version: 1,
+        version: CLIENT_VERSION,
         /* Declared, not implied. Citerank reads this to know which signals to
          * offer, so a client that cannot do per-page schema says so here rather
          * than failing later when someone presses Deploy. */
