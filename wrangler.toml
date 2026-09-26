@@ -1,0 +1,29 @@
+# Citerank Deploy — Cloudflare Worker
+#
+# This is the configuration the "Deploy to Cloudflare" button reads. It differs
+# from the copy Citerank hands out for a manual wrangler deploy in one way: it
+# declares no route.
+#
+# A route has to name a real zone on your account, and there is no value that is
+# correct for everyone. A placeholder here would fail the deploy outright, so the
+# route is added after the Worker exists. The README says how.
+
+name = "citerank-deploy"
+main = "cloudflare-worker.js"
+
+# Workers using modules syntax (export default) need a compatibility date at or
+# after this. An older date puts the Worker in service-worker mode, where
+# `export default` is ignored: it deploys cleanly and silently does nothing.
+compatibility_date = "2024-09-23"
+
+# Storage for the deployed signals.
+#
+# Deploying with the button provisions this namespace and fills in the id for
+# you. Deploying by hand needs it created first:
+#
+#   wrangler kv namespace create CITERANK_KV
+#
+# and the printed id pasted into the id line below.
+[[kv_namespaces]]
+binding = "CITERANK_KV"
+id = ""

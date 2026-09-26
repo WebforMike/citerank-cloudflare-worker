@@ -1,0 +1,10 @@
+# The key Citerank shows you when you generate the Worker client.
+#
+# The "Deploy to Cloudflare" button reads this file to learn which secrets to
+# ask for, and prompts you for the value during setup. Nothing is stored here:
+# this file only declares the name.
+#
+# Deploying by hand instead? Set it with:
+#
+#   wrangler secret put CITERANK_KEY
+CITERANK_KEY=""
